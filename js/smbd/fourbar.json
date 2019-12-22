@@ -1,0 +1,63 @@
+{
+    "inputs": {
+        "hps_a": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "hps_b": [
+            0.0,
+            0.0,
+            200
+        ],
+        "hps_c": [
+            -750,
+            -850,
+             650
+        ],
+        "hps_d": [
+            -400,
+            -850,
+             0.0
+        ],
+        "s_links_ro": 20
+    },
+    "outputs": {
+        "gms_l3": {
+            "type": "cylinder_geometry",
+            "args": [
+                "hps_c",
+                "hps_d",
+                "s_links_ro"
+            ]
+        },
+        "gms_l1": {
+            "type": "cylinder_geometry",
+            "args": [
+                "hps_a",
+                "hps_b",
+                "s_links_ro"
+            ]
+        },
+        "gms_l2": {
+            "type": "cylinder_geometry",
+            "args": [
+                "hps_b",
+                "hps_c",
+                "s_links_ro"
+            ]
+        }
+    },
+    "scene": [
+        "gms_l3",
+        "gms_l1",
+        "gms_l2"
+        ],
+    
+    "geometriesMap":
+    {
+        "gms_l1": "rbs_l1",
+        "gms_l2": "rbs_l2",
+        "gms_l3": "rbs_l3"
+    }
+}
