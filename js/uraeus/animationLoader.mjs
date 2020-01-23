@@ -1,5 +1,3 @@
-import { scene } from "./main.mjs";
-
 
 class animatable
 {
@@ -17,25 +15,20 @@ class animatable
         this.orientationAnimation = new BABYLON.Animation('', "rotationQuaternion", 60, 
                                                         BABYLON.Animation.ANIMATIONTYPE_QUATERNION, 
                                                         BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
-
-
     }
 
     addKey(frame, position, orientation)
     {
         const positionKey = {frame: frame, value: position};
         const orientationKey = {frame: frame, value: orientation};
-
         this.positionKeys.push(positionKey);
         this.orientationKeys.push(orientationKey);
-
     }
 
     setKeys()
     {
         this.positionAnimation.setKeys(this.positionKeys);
         this.orientationAnimation.setKeys(this.orientationKeys);
-
         //console.log(this.positionAnimation)
     }
 
@@ -66,23 +59,14 @@ export class animation
         this.constructAnimation();
     }
 
-    construct()
-    {
-        
-
-    }
-
-
     processStringData()
     {
         this.lines = this.animationData.split('\n').map(function (line){return line.split(',')});
         this.coordinates = this.lines[0].slice(1,-1);
-
     }
 
     extractBodiesNames()
     {
-        
         for (let index = 0; index < this.coordinates.length; index += 7) 
         {
             const coordinate = this.coordinates[index];
@@ -90,12 +74,10 @@ export class animation
             this.bodies.push(bodyName);
         }
         console.log('Extracted Bodies : ', this.bodies);
-
         for (const bodyIndex in this.bodies)
         {
             this.animationKeys[this.bodies[bodyIndex]] = {};
         }
-
     }
 
     setAnimationKeys()
@@ -129,28 +111,19 @@ export class animation
                 // Adding the data to the animationKeys container.
                 // where animationKeys[body][frame] = [positionData, orientatioData]
                 this.animationKeys[this.bodies[bodyIndex]][frame] = [vec, qut];
-
             }
-            
-            
         }
-
         console.log(this.animationKeys)
-
     }
 
     constructAnimation()
     {
         this.animatables = {};
-
-        console.log(this.model.geometries)
-
-        for (const geoName in this.model.geometries)
+        for (const geoName in this.model.geometries_map)
         {
-            const geoObj = this.model.geometries[geoName];
-            const bodyName = this.model.geometriesMap[geoName];
+            const geoObj = this.model[geoName];
+            const bodyName = this.model.geometries_map[geoName];
             const animObj  = new animatable(geoObj);
-
             for (const frame in this.animationKeys[bodyName])
             {
                 const R = this.animationKeys[bodyName][frame][0];
@@ -164,15 +137,11 @@ export class animation
                 //console.log(bodyName, frame, R, P)
                 animObj.addKey(frame-1, R, P)
             }
-
             animObj.setKeys();
             animObj.addToGroup(this.animationGroup);
             this.animatables[geoName] = animObj;
-
         }
-
         //this.animationGroup.normalize(0, 100)
         this.animationGroup.play(true);
-
     }
 }
