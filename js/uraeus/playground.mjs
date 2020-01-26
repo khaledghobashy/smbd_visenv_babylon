@@ -1,5 +1,5 @@
 import {scene} from './main.mjs'
-import {tubeMesh, compositeMesh} from './geometries.mjs'
+import {Sphere_Geometry, Triangular_Prism} from './GeometriesObjects.mjs'
 
 function construct()
 {    
@@ -51,4 +51,22 @@ function construct()
 }
 
 
+function testSphere()
+{
+    var p1 = new BABYLON.Vector3(5,5,5);
+    var sphere = new Sphere_Geometry('test_sphere');
+    sphere.construct(p1, 1)
+}
 
+//testSphere()
+
+function testExtrude()
+{
+    var ucaf = new BABYLON.Vector3(-3,2.45,4.40);
+    var ucar = new BABYLON.Vector3( 3,2.45,4.40);
+    var ucao = new BABYLON.Vector3( 0,2.45,1);
+
+    var geo = new Triangular_Prism('test_sphere');
+    geo.construct(ucaf, ucar, ucao, 0.3)
+}
+testExtrude()
