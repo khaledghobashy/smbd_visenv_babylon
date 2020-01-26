@@ -1,8 +1,15 @@
 
 export function Mirrored(vector)
 {
-    const mirrored = vector.scale(-1)
+    const mirrored = vector.clone()
+    mirrored.y = -1 * vector.y
     return mirrored
+}
+
+export function Centered(vector1, vector2)
+{
+    const centered = BABYLON.Vector3.Center(vector1, vector2)
+    return centered
 }
 
 export function getNormal(v1, v2, v3)

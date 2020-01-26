@@ -1,4 +1,5 @@
 import {Cylinder_Geometry, Sphere_Geometry, Triangular_Prism} from './GeometriesObjects.mjs'
+import {Mirrored, Centered} from './vectorOperations.mjs'
 
 // A model class that holds the constructed geometric objects
 class Model
@@ -35,6 +36,18 @@ var Constructors =
         const [p1, p2, p3, thickness] = args;
         geo.construct(p1, p2, p3, thickness);
         return geo
+    },
+
+    Mirrored: function(name, args)
+    {
+        const vec = Mirrored(args[0]);
+        return vec
+    },
+
+    Centered: function(name, args)
+    {
+        const vec = Centered(args[0], args[1]);
+        return vec
     }
 };
 
@@ -84,7 +97,7 @@ export class ConfigurationDecoder
         const statements = this.jsonObject.evaluations;
         for (const inputName in statements)
         {
-            if (inputName.startsWith('gm'))
+            if (inputName.startsWith('gm') | inputName.startsWith('hp'))
             {
                 const geo = statements[inputName];
                 const constructorName  = geo.constructor;

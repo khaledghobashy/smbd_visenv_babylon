@@ -65,29 +65,6 @@ export class Triangular_Prism
         this.name = name;
     }
 
-    construct1(p1, p2, p3, thickness)
-    {  
-        const normal = getNormal(p1, p2, p3);
-        console.log(normal);
-        const extrude_shape = [p1, p2, p3, p1];
-        const extrude_path  = [p1, p1.add(normal)]
-        //[getNormal(p1, p2, p3).scale(thickness)];
-            //new BABYLON.Vector3(0, 0, thickness)];
-
-        // Create the options object for the BABYLON TubeMesh
-        const options = {shape: extrude_shape, path: extrude_path,
-                         sideOrientation: BABYLON.Mesh.DOUBLESIDE, cap: BABYLON.Mesh.CAP_ALL}
-        // Create the sphere mesh
-        this.mesh =  BABYLON.MeshBuilder.ExtrudeShapeCustom(this.name, options, scene);
-        
-        // Obtaining the BoundingBox center of the mesh that approximates the
-        // mesh centroid.
-        var meshCenter = this.mesh.getBoundingInfo().boundingBox.center;
-
-        // Setting the mesh position
-        this.setMeshPosition(meshCenter)
-    }
-
     construct(p1, p2, p3, thickness)
     {  
         // Evaluating the normal of the triangular plan
@@ -117,8 +94,8 @@ export class Triangular_Prism
 
 
         // Creating raw mesh for the prism faces
-        var face1 = new BABYLON.Mesh('face1', scene);
-        var face2 = new BABYLON.Mesh('face2', scene);
+        var face1 = new BABYLON.Mesh(this.name, scene);
+        var face2 = new BABYLON.Mesh(this.name, scene);
         
         var mat = new BABYLON.StandardMaterial("mat", scene);
         mat.backFaceCulling = false;
@@ -164,24 +141,6 @@ export class Triangular_Prism
         // Setting the mesh position
         this.setMeshPosition(meshCenter)
 
-    }
-
-    creat_triangle_face(p1, p2, p3, thickness)
-    {  
-        const normal = getNormal(p1, p2, p3);
-        console.log(normal);
-        const corners = [p1, p2, p3];
-
-        // Create the sphere mesh
-        const poly_tri =  new BABYLON.PolygonMeshBuilder(this.name, corners, scene);
-        this.mesh = poly_tri.build(null, thickness)
-        
-        // Obtaining the BoundingBox center of the mesh that approximates the
-        // mesh centroid.
-        var meshCenter = this.mesh.getBoundingInfo().boundingBox.center;
-
-        // Setting the mesh position
-        this.setMeshPosition(meshCenter)
     }
 
     setMeshPosition(position)

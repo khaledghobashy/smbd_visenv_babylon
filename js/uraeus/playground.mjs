@@ -1,5 +1,6 @@
 import {scene} from './main.mjs'
 import {Sphere_Geometry, Triangular_Prism} from './GeometriesObjects.mjs'
+import {Centered, Mirrored} from './vectorOperations.mjs'
 
 function construct()
 {    
@@ -67,6 +68,11 @@ function testExtrude()
     var ucao = new BABYLON.Vector3( 0,2.45,1);
 
     var geo = new Triangular_Prism('test_sphere');
-    geo.construct(ucaf, ucar, ucao, 0.3)
+    geo.construct(ucaf, ucar, ucao, 0.2)
+
+    console.log(Centered(ucaf, ucar))
+    console.log(Mirrored(ucaf))
 }
-testExtrude()
+//testExtrude()
+
+
