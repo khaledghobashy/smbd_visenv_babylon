@@ -21,6 +21,7 @@ class animatable
     {
         const positionKey = {frame: frame, value: position};
         const orientationKey = {frame: frame, value: orientation};
+
         this.positionKeys.push(positionKey);
         this.orientationKeys.push(orientationKey);
     }
@@ -51,7 +52,7 @@ export class animation
 
         this.bodies = [];
         this.animationKeys = {}
-        this.animationGroup = new BABYLON.AnimationGroup('s');
+        this.animationGroup = new BABYLON.AnimationGroup(this.name);
 
         this.processStringData();
         this.extractBodiesNames();
@@ -86,7 +87,7 @@ export class animation
         // to create numerical objects that can be used in animation.
         for (let frame = 1; frame < this.lines.length-1; frame++) 
         {
-            // Converting the array of strings ti an array of floats.
+            // Converting the array of strings to an array of floats.
             // the slice [1:-1] is used to trim the index col and the "time" col.
             const line = new Float64Array(this.lines[frame].slice(1,-1));
             //console.log(line)
@@ -131,8 +132,8 @@ export class animation
 
                 if (frame-1 == 0)
                 {
-                    console.log('true')
-                    geoObj.setMeshPosition(R)
+                    console.log('Setting initial position of body: ', bodyName)
+                    //geoObj.setMeshPosition(R)
                 }
                 //console.log(bodyName, frame, R, P)
                 animObj.addKey(frame-1, R, P)

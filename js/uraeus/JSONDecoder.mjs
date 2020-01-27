@@ -1,3 +1,4 @@
+import {scene, followCamera, focusTarget} from './main.mjs'
 import {Cylinder_Geometry, Sphere_Geometry, Triangular_Prism} from './GeometriesObjects.mjs'
 import {Mirrored, Centered} from './vectorOperations.mjs'
 
@@ -67,8 +68,30 @@ export class ConfigurationDecoder
         this.construct_points();
         this.construct_geometries();
         this.model.geometries_map = this.jsonObject.geometries_map;
+        this.makePickable();
         return this.model
-    }
+    };
+
+    makePickable()
+    {
+        for (var i=0; i<scene.meshes.length; i++) 
+        {
+            var mesh = scene.meshes[i];
+            mesh.isPickable = true;
+            mesh.actionManager = new BABYLON.ActionManager(scene);
+
+            mesh.actionManager.registerAction(
+                new BABYLON.ExecuteCodeAction(
+                    BABYLON.ActionManager.OnPickTrigger, function(bjsevt)
+                    {
+                        //console.log(bjsevt);
+                        console.log(mesh.name)
+                        //focusTarget.parent = mesh;
+                        //followCamera.lockedTarget = mesh;
+                        //followCamera.parent = mesh;
+                    }))
+        };
+    };
 
     construct_points()
     {

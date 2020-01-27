@@ -5,7 +5,7 @@ var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, ste
 // Create the scene space
 let camera;
 
-export let scene, debugLayer;
+export let scene, debugLayer, followCamera, focusTarget;
 
 /******* Scene Creation function ******/
 function createScene()
@@ -26,20 +26,12 @@ function createScene()
     var gizmoManager = new BABYLON.GizmoManager(scene)
 
     // Initialize all gizmos
-    gizmoManager.boundingBoxGizmoEnabled = true;
-    gizmoManager.positionGizmoEnabled = true;
-    gizmoManager.rotationGizmoEnabled = true;
-    gizmoManager.scaleGizmoEnabled = true;
-    gizmoManager.clearGizmoOnEmptyPointerEvent = true;
+    //gizmoManager.boundingBoxGizmoEnabled = true;
+    //gizmoManager.positionGizmoEnabled = true;
+    //gizmoManager.rotationGizmoEnabled = true;
+    //gizmoManager.scaleGizmoEnabled = true;
+    //gizmoManager.clearGizmoOnEmptyPointerEvent = true;
     //gizmoManager.usePointerToAttachGizmos = false;
-
-    document.onkeydown = (e)=>
-    {
-        if(e.key == 'w')
-        {
-            console.log('Pressed "w"')
-        }
-    }
 
 };
 
@@ -50,7 +42,41 @@ function createCamera()
     camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 4, Math.PI / 4, 15, new BABYLON.Vector3.Zero(), scene);
     camera.upVector = new BABYLON.Vector3(0, 0, 1);
     camera.attachControl(canvas, true);
-}
+
+    // Shape to follow
+    focusTarget = new BABYLON.TransformNode("ft");
+    focusTarget.position = new BABYLON.Vector3(0, 0, 0); 
+    //var offset = new BABYLON.Vector3(-15, -25, -20);
+    // Add a camera to the scene and attach it to the canvas
+    followCamera = new BABYLON.ArcFollowCamera("FollowCamera", Math.PI / 4, Math.PI / 4, 2, focusTarget, scene);
+    followCamera.upVector = new BABYLON.Vector3(0, 0, 1);
+    followCamera.attachControl(canvas, true);
+    console.log(followCamera)
+
+};
+
+function createFollowCamera()
+{
+    followCamera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 10), scene);
+    followCamera.upVector = new BABYLON.Vector3(0, 0, 1);
+    // The goal distance of camera from target
+    followCamera.radius = 30;
+
+    // The goal height of camera above local origin (centre) of target
+    followCamera.heightOffset = 5;
+
+    // The goal rotation of camera around local origin (centre) of target in x y plane
+    followCamera.rotationOffset = 0;
+
+    // Acceleration of camera in moving from current to goal position
+    followCamera.cameraAcceleration = 0.05
+
+    // The speed at which acceleration is halted
+    followCamera.maxCameraSpeed = 10
+
+    // This attaches the camera to the canvas
+    //followCamera.attachControl(canvas, true);
+};
 
 
 /******* Lights Creation function ******/
@@ -58,7 +84,7 @@ function createLights()
 {
     // Add lights to the scene
     var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
-    var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);
+    var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(10, 10, 10), scene);
 }
 
 

@@ -1,5 +1,5 @@
 
-export var pointsData, modelData, animationData;
+export var pointsData, modelData, animationData, animationName;
 
 var pointsFile, modelFile, animationFile;
 
@@ -46,6 +46,7 @@ function readAnimation(event)
     {
         animationData = reader.result
         const filename = animationFile.files[0].name
+        animationName = filename.split('.')[0]
         console.log('Animation File Selected : \n', filename)
     }
     reader.readAsText(animationFile.files[0])

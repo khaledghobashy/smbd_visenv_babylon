@@ -1,6 +1,6 @@
 import {debugLayer} from './main.mjs'
 import {ConfigurationDecoder} from './JSONDecoder.mjs'
-import {modelData, animationData} from './fileLoaders.mjs'
+import {modelData, animationData, animationName} from './fileLoaders.mjs'
 import {animation} from './animationLoader.mjs'
 
 var models = {};
@@ -26,7 +26,7 @@ var params =
 
     addAnimation : function()
     {
-        var anim = new animation('name', animationData, models[name])
+        var anim = new animation(animationName, animationData, models[name])
     },
 
     inspector : function()
