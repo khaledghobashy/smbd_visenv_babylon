@@ -3,7 +3,7 @@ import {ConfigurationDecoder} from './JSONDecoder.mjs'
 import {modelData, animationData, animationName} from './fileLoaders.mjs'
 import {animation} from './animationLoader.mjs'
 
-var models = {};
+var models = [];
 
 var params = 
 {
@@ -21,12 +21,16 @@ var params =
     {
         const decoder = new ConfigurationDecoder(modelData);
         const model = decoder.constructModel();
-        models[name] = model;
+        models.push(model);
     },
 
     addAnimation : function()
     {
-        var anim = new animation(animationName, animationData, models[name])
+        for (const i in models)
+        {
+            var anim = new animation(animationName, animationData, models[i])
+        }
+        //var anim = new animation(animationName, animationData, models[name])
     },
 
     inspector : function()

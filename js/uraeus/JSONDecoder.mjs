@@ -61,15 +61,28 @@ export class ConfigurationDecoder
         const name = this.jsonObject.information.topology_name;
         console.log(name);
         this.model = new Model(name);
+        this.model['subsystem_name'] = this.jsonObject.information.subsystem_name;
     };
 
     constructModel()
     {
         this.construct_points();
         this.construct_geometries();
-        this.model.geometries_map = this.jsonObject.geometries_map;
+        this.constructGeometriesMap();
         this.makePickable();
         return this.model
+    };
+
+    constructGeometriesMap()
+    {
+        var updated_map = {};
+        var geometries_map = this.jsonObject.geometries_map;
+        for (const geoName in geometries_map)
+        {
+            updated_map[geoName] = [this.model.subsystem_name, geometries_map[geoName]].join('.')
+        };
+        this.model.geometries_map = updated_map;
+        console.log(this.model.geometries_map)
     };
 
     makePickable()
