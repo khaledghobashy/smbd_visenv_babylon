@@ -2,10 +2,7 @@
 var canvas = document.getElementById("renderCanvas"); // Get the canvas element 
 var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true }); // Generate the BABYLON 3D engine
 
-// Create the scene space
-let camera;
-
-export let scene, debugLayer, followCamera, focusTarget;
+export let scene, debugLayer, followCamera, focusTarget, camera;
 
 /******* Scene Creation function ******/
 function createScene()
@@ -44,13 +41,14 @@ function createCamera()
     camera.attachControl(canvas, true);
 
     // Shape to follow
-    focusTarget = new BABYLON.TransformNode("ft");
-    focusTarget.position = new BABYLON.Vector3(0, 0, 0); 
+    //focusTarget = new BABYLON.TransformNode("ft");
+    //focusTarget.position = new BABYLON.Vector3(0, 0, 0); 
     //var offset = new BABYLON.Vector3(-15, -25, -20);
     // Add a camera to the scene and attach it to the canvas
-    followCamera = new BABYLON.ArcFollowCamera("FollowCamera", Math.PI / 4, Math.PI / 4, 2, focusTarget, scene);
+    followCamera = new BABYLON.ArcRotateCamera("FollowCamera", Math.PI / 4, Math.PI / 4, 15, new BABYLON.Vector3.Zero(), scene);
     followCamera.upVector = new BABYLON.Vector3(0, 0, 1);
     followCamera.attachControl(canvas, true);
+    
     console.log(followCamera)
 
 };

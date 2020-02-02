@@ -44,10 +44,10 @@ class animatable
 
 export class animation
 {
-    constructor(name, animationData, model)
+    constructor(name, animationData, models)
     {
         this.name = name;
-        this.model = model;
+        this.models = models;
         this.animationData = animationData;
 
         this.bodies = [];
@@ -120,27 +120,33 @@ export class animation
     constructAnimation()
     {
         this.animatables = {};
-        for (const geoName in this.model.geometries_map)
+        console.log(this.models)
+        for (const i in this.models)
         {
-            const geoObj = this.model[geoName];
-            const bodyName = this.model.geometries_map[geoName];
-            const animObj  = new animatable(geoObj);
-            for (const frame in this.animationKeys[bodyName])
+            const model = this.models[i]
+            console.log(model)
+            for (const geoName in model.geometries_map)
             {
-                const R = this.animationKeys[bodyName][frame][0];
-                const P = this.animationKeys[bodyName][frame][1];
-
-                if (frame-1 == 0)
+                const geoObj = model[geoName];
+                const bodyName = model.geometries_map[geoName];
+                const animObj  = new animatable(geoObj);
+                for (const frame in this.animationKeys[bodyName])
                 {
-                    console.log('Setting initial position of body: ', bodyName)
-                    //geoObj.setMeshPosition(R)
+                    const R = this.animationKeys[bodyName][frame][0];
+                    const P = this.animationKeys[bodyName][frame][1];
+
+                    if (frame-1 == 0)
+                    {
+                        console.log('Setting initial position of body: ', bodyName)
+                        //geoObj.setMeshPosition(R)
+                    }
+                    //console.log(bodyName, frame, R, P)
+                    animObj.addKey(frame-1, R, P)
                 }
-                //console.log(bodyName, frame, R, P)
-                animObj.addKey(frame-1, R, P)
+                animObj.setKeys();
+                animObj.addToGroup(this.animationGroup);
+                this.animatables[geoName] = animObj;
             }
-            animObj.setKeys();
-            animObj.addToGroup(this.animationGroup);
-            this.animatables[geoName] = animObj;
         }
         //this.animationGroup.normalize(0, 100)
         this.animationGroup.play(true);

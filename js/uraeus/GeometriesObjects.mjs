@@ -1,4 +1,4 @@
-import {scene} from './main.mjs'
+import {scene, camera, followCamera, focusTarget} from './main.mjs'
 import {getNormal} from './vectorOperations.mjs'
 
 export class Cylinder_Geometry
@@ -24,12 +24,19 @@ export class Cylinder_Geometry
         // mesh centroid.
         var meshCenter = this.mesh.getBoundingInfo().boundingBox.center;
         this.setMeshPosition(meshCenter)
+
+        this.makePickable(this.mesh)
     }
 
     setMeshPosition(position)
     {
         setMeshPosition(this.mesh, position)
     }
+
+    makePickable()
+    {
+        makePickable(this.mesh)
+    };
 }
 
 
@@ -50,12 +57,18 @@ export class Sphere_Geometry
         
         // Setting the mesh position
         this.setMeshPosition(p1)
+        this.makePickable()
     }
 
     setMeshPosition(position)
     {
         this.mesh.position = position
-    }
+    };
+
+    makePickable()
+    {
+        makePickable(this.mesh)
+    };
 }
 
 export class Triangular_Prism
@@ -141,12 +154,19 @@ export class Triangular_Prism
         // Setting the mesh position
         this.setMeshPosition(meshCenter)
 
+        this.makePickable()
+
     }
 
     setMeshPosition(position)
     {
         setMeshPosition(this.mesh, position)
-    }
+    };
+
+    makePickable()
+    {
+        makePickable(this.mesh)
+    };
 }
 
 // A function that reposition the mesh origin to the provided new position
@@ -167,3 +187,19 @@ function setMeshPosition(mesh, position)
     const newPosition = mesh.position
     console.log('Mesh Position changed from :', oldPosition, 'to :', newPosition)
 }
+
+
+function makePickable(mesh)
+{
+    mesh.isPickable = true;
+    mesh.actionManager = new BABYLON.ActionManager(scene);
+
+    mesh.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPickTrigger, function(bjsevt)
+            {
+                //console.log(bjsevt);
+                console.log(mesh.name);
+                followCamera.setTarget(mesh);
+            }))
+};

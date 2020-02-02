@@ -12,11 +12,6 @@ var params =
         document.getElementById('modelFile').click()
     },
 
-    loadAnimation : function()
-    {
-        document.getElementById('animationFile').click()
-    },
-
     createModel : function()
     {
         const decoder = new ConfigurationDecoder(modelData);
@@ -24,13 +19,14 @@ var params =
         models.push(model);
     },
 
+    loadAnimation : function()
+    {
+        document.getElementById('animationFile').click()
+    },
+
     addAnimation : function()
     {
-        for (const i in models)
-        {
-            var anim = new animation(animationName, animationData, models[i])
-        }
-        //var anim = new animation(animationName, animationData, models[name])
+        var anim = new animation(animationName, animationData, models)
     },
 
     inspector : function()
@@ -68,5 +64,5 @@ var f2 = gui.addFolder('Animation Loader');
 f2.add(params, 'loadAnimation').name('Load Animation Data');
 f2.add(params, 'addAnimation').name('Add Animation');
 
-gui.add(params, 'inspector').name('Inspector')
+gui.add(params, 'inspector').name('Toggle Inspector')
 

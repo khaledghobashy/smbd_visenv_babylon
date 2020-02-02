@@ -1,4 +1,4 @@
-import {scene, followCamera, focusTarget} from './main.mjs'
+import {scene, followCamera, focusTarget, camera} from './main.mjs'
 import {Cylinder_Geometry, Sphere_Geometry, Triangular_Prism} from './GeometriesObjects.mjs'
 import {Mirrored, Centered} from './vectorOperations.mjs'
 
@@ -69,7 +69,7 @@ export class ConfigurationDecoder
         this.construct_points();
         this.construct_geometries();
         this.constructGeometriesMap();
-        this.makePickable();
+        //this.makePickable();
         return this.model
     };
 
@@ -99,6 +99,7 @@ export class ConfigurationDecoder
                     {
                         //console.log(bjsevt);
                         console.log(mesh.name)
+                        camera.target = mesh
                         //focusTarget.parent = mesh;
                         //followCamera.lockedTarget = mesh;
                         //followCamera.parent = mesh;
