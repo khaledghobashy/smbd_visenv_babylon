@@ -1,26 +1,11 @@
 
-export var pointsData, modelData, animationData, animationName;
+export var modelData, animationData, modelName, animationName;
 
-var pointsFile, modelFile, animationFile;
-
-pointsFile = document.getElementById('pointsFile')
-pointsFile.addEventListener('change', readPoints)
-
-function readPoints(event)
-{
-    var  reader = new FileReader();
-    reader.onload = function()
-    {
-        pointsData = reader.result
-        const filename = pointsFile.files[0].name
-        console.log('Configuration File Selected : \n', filename)
-    }
-    reader.readAsText(pointsFile.files[0])
-}
+var modelFile, animationFile;
 
 
 
-modelFile = document.getElementById('modelFile')
+/* modelFile = document.getElementById('modelFile')
 modelFile.addEventListener('change', readModel)
 
 function readModel(event)
@@ -29,11 +14,28 @@ function readModel(event)
     reader.onload = function()
     {
         modelData = reader.result
+        modelName = modelFile.files[0].name
         const filename = modelFile.files[0].name
         console.log('Visualization File Selected : \n', filename)
     }
     reader.readAsText(modelFile.files[0])
-}
+} */
+
+/* modelFile = document.getElementById('modelFile')
+modelFile.addEventListener('change', readModel)
+
+function readModel(event)
+{
+    var  reader = new FileReader();
+    reader.onload = function()
+    {
+        modelData = reader.result
+        modelName = modelFile.files[0].name
+        const filename = modelFile.files[0].name
+        console.log('Visualization File Selected : \n', filename)
+    }
+    reader.readAsText(modelFile.files[0])
+} */
 
 
 animationFile = document.getElementById('animationFile')

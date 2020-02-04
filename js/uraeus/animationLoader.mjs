@@ -149,6 +149,6 @@ export class animation
             }
         }
         //this.animationGroup.normalize(0, 100)
-        this.animationGroup.play(true);
+        //this.animationGroup.play(true);
     }
 }

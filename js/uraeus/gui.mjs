@@ -1,33 +1,62 @@
 import {debugLayer} from './main.mjs'
 import {ConfigurationDecoder} from './JSONDecoder.mjs'
-import {modelData, animationData, animationName} from './fileLoaders.mjs'
 import {animation} from './animationLoader.mjs'
 
-var models = [];
+var models = {};
+
+var modelData, modelName;
+var modelFileDOM = document.getElementById('modelFile')
+modelFileDOM.addEventListener('change', readModel)
+
+var animationData, animationName;
+var animFileDOM = document.getElementById('animationFile')
+animFileDOM.addEventListener('change', readAnimation)
+
+function readModel()
+{
+    const file = this.files[0]
+    console.log(file)
+    if (file)
+    {
+        modelName = file.name
+        console.log('Visualization File Selected : \n', modelName)
+        var  reader = new FileReader();
+        reader.onload = function()
+        {
+            modelData = reader.result
+            const decoder = new ConfigurationDecoder(modelData);
+            const model = decoder.constructModel();
+            models[modelName] = model;
+            loadModel.setValue(modelName);
+            loadModel.updateDisplay();
+        }
+        reader.readAsText(file)
+    }
+}
+
+function readAnimation()
+{
+    const file = this.files[0]
+    console.log(file)
+    if (file)
+    {
+        animationName = file.name
+        console.log('Animation File Selected : \n', animationName)
+        var  reader = new FileReader();
+        reader.onload = function()
+        {
+            animationData = reader.result
+            var anim = new animation(animationName, animationData, models)
+        }
+        reader.readAsText(file)
+    }
+}
 
 var params = 
 {
-    loadModel : function()
-    {
-        document.getElementById('modelFile').click()
-    },
+    loadModel : '',
 
-    createModel : function()
-    {
-        const decoder = new ConfigurationDecoder(modelData);
-        const model = decoder.constructModel();
-        models.push(model);
-    },
-
-    loadAnimation : function()
-    {
-        document.getElementById('animationFile').click()
-    },
-
-    addAnimation : function()
-    {
-        var anim = new animation(animationName, animationData, models)
-    },
+    loadAnimation : '',
 
     inspector : function()
     {
@@ -57,12 +86,16 @@ var customContainer = document.getElementById('body');
 customContainer.appendChild(gui.domElement);
 
 var f1 = gui.addFolder('Standalone Model');
-f1.add(params, 'loadModel').name('Load Model Data');
-f1.add(params, 'createModel').name('Submit');
+var loadModel = f1.add(params, 'loadModel')
+loadModel.name('Load Model Data');
+loadModel.listen()
+loadModel.domElement.onclick = function(){modelFileDOM.click()}
 
 var f2 = gui.addFolder('Animation Loader');
-f2.add(params, 'loadAnimation').name('Load Animation Data');
-f2.add(params, 'addAnimation').name('Add Animation');
+var loadAnim = f2.add(params, 'loadAnimation')
+loadAnim.name('Load Animation Data');
+loadAnim.listen();
+loadAnim.domElement.onclick = function(){animFileDOM.click()}
 
 gui.add(params, 'inspector').name('Toggle Inspector')
 
