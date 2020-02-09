@@ -75,4 +75,9 @@ function testExtrude()
 }
 //testExtrude()
 
+function loadOnject()
+{
+    BABYLON.SceneLoader.Append("js/uraeus/", "scene.glb", scene, function (scene) {});
 
+}
+//loadOnject()

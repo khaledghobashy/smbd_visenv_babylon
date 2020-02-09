@@ -56,18 +56,23 @@ var params =
 {
     loadModel : '',
 
+    loadModel2 : function()
+    {
+        modelFileDOM.click()
+    },
+
     loadAnimation : '',
 
     inspector : function()
     {
         if (debugLayer.isVisible())
         {
-            console.log('Inspector window shown.')
+            console.log('Inspector window hiden.')
             debugLayer.hide()
         }
         else 
         {
-            console.log('Inspector window hiden.')
+            console.log('Inspector window shown.')
             debugLayer.show({embedMode: true, handleResize: true})
         }
     }
@@ -85,11 +90,17 @@ gui.domElement.style.width = '50mm';
 var customContainer = document.getElementById('body');
 customContainer.appendChild(gui.domElement);
 
-var f1 = gui.addFolder('Standalone Model');
-var loadModel = f1.add(params, 'loadModel')
+var folderCreateNew = gui.addFolder('Create New Model');
+var f2Standalone = folderCreateNew.addFolder('Standalone Model');
+var loadModel = f2Standalone.add(params, 'loadModel')
 loadModel.name('Load Model Data');
 loadModel.listen()
 loadModel.domElement.onclick = function(){modelFileDOM.click()}
+
+var f2Assembly = folderCreateNew.addFolder('Assembled Model');
+var loadModel2 = f2Assembly.add(params, 'loadModel2')
+loadModel2.name('Add SubSystem');
+
 
 var f2 = gui.addFolder('Animation Loader');
 var loadAnim = f2.add(params, 'loadAnimation')
@@ -99,3 +110,19 @@ loadAnim.domElement.onclick = function(){animFileDOM.click()}
 
 gui.add(params, 'inspector').name('Toggle Inspector')
 
+
+var gui2 = new dat.GUI({ autoPlace: false });
+gui2.domElement.id = 'moveGUI2'
+gui2.domElement.style.position= 'absolute';
+gui2.domElement.style.top = '100mm';
+gui2.domElement.style.left = '0mm';
+gui2.domElement.style.width = '50mm';
+//gui2.domElement.style.height  = '1px'
+
+gui2.add(params, 'inspector').name('Toggle Inspector')
+
+customContainer.appendChild(gui2.domElement);
+
+console.log(gui.domElement.style.bottom);
+
+gui2.hide();

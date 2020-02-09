@@ -7,7 +7,9 @@ class Model
 {
     constructor(name)
     {
-        this.name = name
+        this.name = name;
+        this.subsystem_name = name;
+        this.mesh = new BABYLON.Mesh(name, scene);
     }
 }
 
@@ -58,10 +60,9 @@ export class ConfigurationDecoder
     {
         this.jsonObject = JSON.parse(configFileData);
         console.log(this.jsonObject);
-        const name = this.jsonObject.information.topology_name;
+        const name = this.jsonObject.information.subsystem_name;
         console.log(name);
         this.model = new Model(name);
-        this.model['subsystem_name'] = this.jsonObject.information.subsystem_name;
     };
 
     constructModel()
@@ -70,6 +71,7 @@ export class ConfigurationDecoder
         this.construct_geometries();
         this.constructGeometriesMap();
         //this.makePickable();
+        this.setGeometriesParent();
         return this.model
     };
 
@@ -150,6 +152,15 @@ export class ConfigurationDecoder
                 this.model[inputName] = constructorClass(inputName, args);
                 //console.log(inputName, this.model[inputName]);
             };
+        };
+    };
+
+    setGeometriesParent()
+    {
+        var geometries_map = this.jsonObject.geometries_map;
+        for (const geoName in geometries_map)
+        {
+            this.model[geoName].mesh.parent = this.model.mesh
         };
     };
 
