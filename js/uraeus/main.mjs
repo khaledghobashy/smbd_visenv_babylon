@@ -18,6 +18,19 @@ function createScene()
     debugLayer.show({embedMode: true, handleResize: true});
 
     var axis = new BABYLON.AxesViewer(scene);
+    var groundOptions = {width: 1000, height: 1000, subdivisions: 50, sideOrientation: BABYLON.Mesh.DOUBLESIDE}
+    var groundMaterial = new BABYLON.GridMaterial("groundMaterial", scene);
+	groundMaterial.majorUnitFrequency = 10;
+	groundMaterial.minorUnitVisibility = 0.45;
+	groundMaterial.gridRatio = 2;
+	groundMaterial.backFaceCulling = false;
+	groundMaterial.mainColor = new BABYLON.Color3(1, 1, 1);
+	groundMaterial.lineColor = new BABYLON.Color3(1.0, 1.0, 1.0);
+    groundMaterial.opacity = 0.1;
+    
+    var myGround = BABYLON.MeshBuilder.CreatePlane("myGround", groundOptions, scene);
+    myGround.material = groundMaterial;
+
 
     // Initialize GizmoManager
     var gizmoManager = new BABYLON.GizmoManager(scene)
