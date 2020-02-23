@@ -1,5 +1,5 @@
 import {scene, followCamera, focusTarget, camera} from './main.mjs'
-import {Cylinder_Geometry, Sphere_Geometry, Triangular_Prism} from './GeometriesObjects.mjs'
+import {Cylinder_Geometry, Sphere_Geometry, Triangular_Prism, Composite_Geometry} from './GeometriesObjects.mjs'
 import {Mirrored, Centered} from './vectorOperations.mjs'
 
 // A model class that holds the constructed geometric objects
@@ -41,6 +41,15 @@ var Constructors =
         return geo
     },
 
+    Composite_Geometry: function(name, args)
+    {
+        const geo = new Composite_Geometry(name);
+        const meshes = [];
+        for (const i in args) {meshes.push(args[i].mesh)};
+        geo.construct(meshes);
+        return geo
+    },
+
     Mirrored: function(name, args)
     {
         const vec = Mirrored(args[0]);
@@ -77,12 +86,16 @@ export class ConfigurationDecoder
 
     constructGeometriesMap()
     {
-        var updated_map = {};
         var geometries_map = this.jsonObject.geometries_map;
-        for (const geoName in geometries_map)
+        var updated_map = geometries_map;
+        if (this.model.subsystem_name != '')
         {
+            for (const geoName in geometries_map)
+            {
             updated_map[geoName] = [this.model.subsystem_name, geometries_map[geoName]].join('.')
+            };
         };
+        
         this.model.geometries_map = updated_map;
         console.log(this.model.geometries_map)
     };

@@ -39,6 +39,40 @@ export class Cylinder_Geometry
     };
 }
 
+export class Composite_Geometry
+{
+    constructor(name)
+    {
+        this.name = name;
+    }
+
+    construct(meshes)
+    {   
+        // Create the options object for the BABYLON TubeMesh
+        
+        // Create the tube mesh
+        this.mesh =  BABYLON.Mesh.MergeMeshes(meshes);
+        //console.log('Position 1: ', this.mesh.position)
+        
+        // Obtaining the BoundingBox center of the mesh that approximates the
+        // mesh centroid.
+        var meshCenter = this.mesh.getBoundingInfo().boundingBox.center;
+        this.setMeshPosition(meshCenter)
+
+        this.makePickable(this.mesh)
+    }
+
+    setMeshPosition(position)
+    {
+        setMeshPosition(this.mesh, position)
+    }
+
+    makePickable()
+    {
+        makePickable(this.mesh)
+    };
+}
+
 
 export class Sphere_Geometry
 {
