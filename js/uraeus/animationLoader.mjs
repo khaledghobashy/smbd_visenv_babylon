@@ -138,7 +138,7 @@ export class animation
                     if (frame-1 == 0)
                     {
                         console.log('Setting initial position of body: ', bodyName)
-                        //geoObj.setMeshPosition(R)
+                        geoObj.setMeshPosition(R)
                     }
                     //console.log(bodyName, frame, R, P)
                     animObj.addKey(frame-1, R, P)

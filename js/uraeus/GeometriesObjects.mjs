@@ -216,7 +216,8 @@ function setMeshPosition(mesh, position)
     mesh.bakeCurrentTransformIntoVertices();
 
     // Moving the mesh position to its centroidal center.
-    mesh.position.copyFrom(meshCenter.add(oldPosition))
+    //mesh.position.copyFrom(meshCenter.add(oldPosition))
+    mesh.position.copyFrom(meshCenter)
 
     const newPosition = mesh.position
     console.log('Mesh Position changed from :', oldPosition, 'to :', newPosition)
