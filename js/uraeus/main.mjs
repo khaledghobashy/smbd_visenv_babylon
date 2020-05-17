@@ -2,7 +2,7 @@
 var canvas = document.getElementById("renderCanvas"); // Get the canvas element 
 var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true }); // Generate the BABYLON 3D engine
 
-export let scene, debugLayer, followCamera, focusTarget, camera;
+export let scene, debugLayer, followCamera, focusTarget, camera, followCamera2;
 
 /******* Scene Creation function ******/
 function createScene()
@@ -69,25 +69,25 @@ function createCamera()
 
 function createFollowCamera()
 {
-    followCamera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 10), scene);
-    followCamera.upVector = new BABYLON.Vector3(0, 0, 1);
+    followCamera2 = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 0, 10), scene);
+    followCamera2.upVector = new BABYLON.Vector3(0, 0, 1);
     // The goal distance of camera from target
-    followCamera.radius = 30;
+    //followCamera2.radius = 30;
 
     // The goal height of camera above local origin (centre) of target
-    followCamera.heightOffset = 5;
+    //followCamera2.heightOffset = 5;
 
     // The goal rotation of camera around local origin (centre) of target in x y plane
-    followCamera.rotationOffset = 0;
+    //followCamera2.rotationOffset = 0;
 
     // Acceleration of camera in moving from current to goal position
-    followCamera.cameraAcceleration = 0.05
+    //followCamera2.cameraAcceleration = 0.05
 
     // The speed at which acceleration is halted
-    followCamera.maxCameraSpeed = 10
+    //followCamera2.maxCameraSpeed = 10
 
     // This attaches the camera to the canvas
-    //followCamera.attachControl(canvas, true);
+    followCamera2.attachControl(canvas, true);
 };
 
 
@@ -108,6 +108,7 @@ function init()
     createScene(); //Call the createScene function
     createCamera();
     createLights();
+    createFollowCamera();
 
 }
 

@@ -1,4 +1,4 @@
-import {scene, camera, followCamera, focusTarget} from './main.mjs'
+import {scene, camera, followCamera, focusTarget, followCamera2} from './main.mjs'
 import {getNormal} from './vectorOperations.mjs'
 
 export class Cylinder_Geometry
@@ -235,6 +235,8 @@ function makePickable(mesh)
             {
                 //console.log(bjsevt);
                 console.log(mesh.name);
-                followCamera.setTarget(mesh);
+                //followCamera.setTarget(mesh);
+                followCamera.lockedTarget = mesh;
+                followCamera2.lockedTarget = mesh;
             }))
 };
