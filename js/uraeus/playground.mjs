@@ -81,3 +81,21 @@ function loadOnject()
 
 }
 //loadOnject()
+
+
+function loadObj()
+{
+    var root = new BABYLON.TransformNode();
+    
+    BABYLON.SceneLoader.ImportMesh("", "./js/uraeus/", "Rims&Tires.obj", scene, function(newMeshes) {
+        // You can apply properties to object.
+        newMeshes.forEach(mesh => {
+            // leave meshes already parented to maintain model hierarchy:
+            if (!mesh.parent) {
+                mesh.parent = root
+            }
+        })
+});
+}
+
+//loadObj()
