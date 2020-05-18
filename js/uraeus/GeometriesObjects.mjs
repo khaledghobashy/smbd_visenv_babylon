@@ -235,8 +235,6 @@ function makePickable(mesh)
             {
                 //console.log(bjsevt);
                 console.log(mesh.name);
-                //followCamera.setTarget(mesh);
                 followCamera.lockedTarget = mesh;
-                followCamera2.lockedTarget = mesh;
             }))
 };

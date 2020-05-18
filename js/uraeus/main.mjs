@@ -95,7 +95,7 @@ function createFollowCamera()
 function createLights()
 {
     // Add lights to the scene
-    var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
+    var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 0, 1), scene);
     var light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(10, 10, 10), scene);
 }
 
@@ -108,7 +108,6 @@ function init()
     createScene(); //Call the createScene function
     createCamera();
     createLights();
-    createFollowCamera();
 
 }
 
